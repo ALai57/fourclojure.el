@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        emacs_version: ['27.1', 'snapshot']
+        emacs_version: ['26.3', '27.1', 'snapshot']
         cask_version: ['snapshot']
 
     steps:
@@ -33,5 +33,5 @@ jobs:
     - name: Install dependencies
       run: cask install
 
-    - name: Test the project using Cask
+    - name: Run tests
       run: cask exec ert-runner
