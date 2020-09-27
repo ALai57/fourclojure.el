@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        emacs_version: ['26.3', '27.1', 'snapshot']
+        emacs_version: ['snapshot']
         cask_version: ['snapshot']
 
     steps:
@@ -26,6 +26,14 @@ jobs:
       with:
         path: ~/.nix-profile/bin/emacs
         key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
+
+    - name: DEBUGGING ONE
+      if: steps.cache-emacs.outputs.cache-hit == 'true'
+      run: echo "~/.nix-profile/bin/emacs --version"
+
+    - name: DEBUGGING
+      if: steps.cache-emacs.outputs.cache-hit == 'true'
+      run: echo "emacs --version"
 
     - name: Add Emacs to PATH
       if: steps.cache-emacs.outputs.cache-hit == 'true'
