@@ -1,0 +1,38 @@
+name: Main workflow
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        emacs_version: ['27.0', 'snapshot']
+        cask_version:
+          - 'snapshot'
+
+    steps:
+    - name: Checkout fourclojure.el repo
+      uses: actions/checkout@v2
+
+    - name: Install Python
+      uses: actions/setup-python@v1.1.1
+      with:
+        python-version: '3.6'
+        architecture: 'x64'
+
+    - name: Install Cask
+      uses: conao3/setup-cask@master
+      with:
+        version: 'snapshot'
+
+    - name: Setup Emacs
+      uses: purcell/setup-emacs@master
+      with:
+        version: ${{matrix.emacs_version}}
+
+    - name: Install dependencies
+      run: cask install
+
+    - name: Test the project using Cask
+      run: cask exec ert-runner
