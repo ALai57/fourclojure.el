@@ -24,15 +24,13 @@ jobs:
       id: cache-emacs
       uses: actions/cache@v2
       with:
-        path: ~/.nix-profile/bin/emacs
+        path: ~/.nix-profile/bin
         key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
 
     - name: DEBUGGING ONE
-      if: steps.cache-emacs.outputs.cache-hit == 'true'
-      run: ~/.nix-profile/bin/emacs --version
+      run: ls ~/.nix-profile/bin
 
     - name: DEBUGGING
-      if: steps.cache-emacs.outputs.cache-hit == 'true'
       run: emacs --version
 
     - name: Add Emacs to PATH
