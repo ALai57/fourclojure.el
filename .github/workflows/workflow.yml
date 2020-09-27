@@ -29,11 +29,11 @@ jobs:
 
     - name: DEBUGGING ONE
       if: steps.cache-emacs.outputs.cache-hit == 'true'
-      run: echo "~/.nix-profile/bin/emacs --version"
+      run: ~/.nix-profile/bin/emacs --version
 
     - name: DEBUGGING
       if: steps.cache-emacs.outputs.cache-hit == 'true'
-      run: echo "emacs --version"
+      run: emacs --version
 
     - name: Add Emacs to PATH
       if: steps.cache-emacs.outputs.cache-hit == 'true'
