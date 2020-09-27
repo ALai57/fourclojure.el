@@ -7,9 +7,8 @@ jobs:
 
     strategy:
       matrix:
-        emacs_version: ['27.0', 'snapshot']
-        cask_version:
-          - 'snapshot'
+        emacs_version: ['27.1', 'snapshot']
+        cask_version: ['snapshot']
 
     steps:
     - name: Checkout fourclojure.el repo
@@ -21,7 +20,7 @@ jobs:
         python-version: '3.6'
         architecture: 'x64'
 
-    - name: Setup Emacs
+    - name: Install Emacs
       uses: purcell/setup-emacs@master
       with:
         version: ${{matrix.emacs_version}}
