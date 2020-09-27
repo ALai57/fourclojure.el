@@ -27,6 +27,10 @@ jobs:
         path: ~/.nix-profile/bin/emacs
         key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
 
+    - name: Add Emacs to PATH
+      if: steps.cache-emacs.outputs.cache-hit == 'true'
+      run: echo "::add-path::~/.nix-profile/bin/"
+
     - name: Install Emacs
       if: steps.cache-emacs.outputs.cache-hit != 'true'
       uses: purcell/setup-emacs@master
