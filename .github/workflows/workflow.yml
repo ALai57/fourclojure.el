@@ -24,7 +24,7 @@ jobs:
       id: cache-emacs
       uses: actions/cache@v2
       with:
-        path: ~/.nix-profile/bin
+        path: ~/.nix-profile/bin/emacs
         key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
 
     - name: DEBUGGING ONE
