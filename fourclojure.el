@@ -28,15 +28,19 @@
 ;;; Variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq fourclojure-buffer "fourclojure.clj")
+(defvar fourclojure-buffer "fourclojure.clj")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Utility functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun third (x) (nth 2 x))
+(defun third (x)
+  "Get the third element from X."
+  (nth 2 x))
 
 (defun curl (url)
+  "Sends an HTTP GET request to the URL specified.
+Puts the results in a temporary buffer."
   (let* ((b (url-retrieve-synchronously url t)))
     (with-current-buffer b
       (goto-char (point-min))
@@ -52,12 +56,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun extract-4clojure-test-cases (full-dom)
+  "Extracts 4clojure test cases from a parsed FULL-DOM object."
   (mapcar (lambda (x) (nth 2 (nth 0 (dom-by-tag x 'pre))))
           (dom-by-tag
            (dom-by-class full-dom "testcases")
            'tr)))
 
 (defun flatten (xs)
+  "Used to flatten a deeply nested 4clojure DOM, XS, and also filter."
   (when xs
     (cond
      ;; remove (symbol . string)
@@ -72,6 +78,8 @@
      ((stringp xs) xs))))
 
 (defun linewrap-and-comment (data width)
+  "Take a string, DATA, and linewrap it at width WIDTH.
+The result will be in a clojure comment block with ;;."
   (let ((acc ""))
     (while (< 0 (length data))
       (setq acc (concat acc ";; "(substring data 0 (min width (length data))) "\n"))
@@ -81,7 +89,8 @@
     acc))
 
 (defun print-4clojure-problem-to-clj-file (4c-problem-endpoint clj-buffer)
-
+  "Retrieve a 4clojure problem from a given 4C-PROBLEM-ENDPOINT.
+Then,parse the result and print it (nicely) to CLJ-BUFFER."
   ;; insert namespace declaration
   (if (get-buffer clj-buffer)
       (setq buff (get-buffer clj-buffer))
@@ -180,12 +189,16 @@
 ;;; Initialize 4clojure package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;###autoload
 (defun 4clojure ()
+  "Retrieve 4clojure problems and set up buffers for quick problem solving.
+Sends an HTTP request to 4clojure and downloads all 4c problems to a buffer
+where the user can interactively select which one to work on.  When the user
+clicks on a problem, it prints the problem description, stubs for the solution
+and test cases to the fourclojure-buffer"
   (interactive)
   (populate-buffer-with-4clojure-problems (generate-new-buffer "*4clojure problems*"))
   (get-buffer-create fourclojure-buffer)
-  (spacemacs/layout-double-columns)
-  (evil-window-move-far-right)
   (switch-to-buffer fourclojure-buffer)
   (insert (format "(ns %s)\n\n" fourclojure-buffer)))
 
