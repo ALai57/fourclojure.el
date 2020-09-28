@@ -27,7 +27,7 @@ jobs:
         version: ${{matrix.emacs_version}}
 
     - name: DEBUGGING
-      run: which emacs
+      run: ls -al ~/.nix-profile/bin
 
     - name: Install Cask
       uses: conao3/setup-cask@master
