@@ -35,13 +35,11 @@ jobs:
 
     - name: Copy binary
       if: steps.cache-emacs.outputs.cache-hit != 'true'
-      run: mkdir -p ~/bin && cp -rL ~/.nix-profile/bin/emacs ~/bin/emacs
+      run: mkdir -p ~/bin && cp -rL ~/.nix-profile/bin/emacs ~/bin/emacs && chmod +x ~/bin/emacs
 
     - name: ADD /bin PATH
       run: echo "::add-path::~/bin"
 
-    - name: EXPORT ENV VAR
-      run: echo "::set-env name=CASK_EMACS::~/bin/emacs"
 
     - name: DEBUG
       run: ls -al ~/bin
