@@ -23,6 +23,8 @@
 
 (require 'dom)
 (require 'org)
+(require 'clojure-mode)
+(require 'markdown-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Variables
