@@ -47,7 +47,7 @@ jobs:
       run: file ~/bin/emacs
 
     - name: DEBUG
-      run: ./bin/emacs -version
+      run: ~/bin/emacs -version
 
     - name: ADD /bin PATH
       run: echo "::add-path::/home/runner/bin/"
