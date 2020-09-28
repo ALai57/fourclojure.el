@@ -20,28 +20,14 @@ jobs:
         python-version: '3.6'
         architecture: 'x64'
 
-    - name: Cache Emacs
-      id: cache-emacs
-      uses: actions/cache@v2
-      with:
-        path: ~/.nix-profile/bin/emacs
-        key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
-
-    - name: DEBUGGING ONE
-      run: ls ~/.nix-profile/bin
-
-    - name: DEBUGGING
-      run: emacs --version
-
-    - name: Add Emacs to PATH
-      if: steps.cache-emacs.outputs.cache-hit == 'true'
-      run: echo "::add-path::~/.nix-profile/bin/"
-
     - name: Install Emacs
       if: steps.cache-emacs.outputs.cache-hit != 'true'
       uses: purcell/setup-emacs@master
       with:
         version: ${{matrix.emacs_version}}
+
+    - name: DEBUGGING
+      run: which emacs
 
     - name: Install Cask
       uses: conao3/setup-cask@master
