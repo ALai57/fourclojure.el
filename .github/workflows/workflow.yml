@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        emacs_version: ['snapshot']
+        emacs_version: ['27.1', 'snapshot']
         cask_version: ['snapshot']
 
     steps:
@@ -20,17 +20,7 @@ jobs:
         python-version: '3.6'
         architecture: 'x64'
 
-    - name: Cache Emacs
-      id: cache-emacs
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.nix-profile/bin/emacs
-          /nix/store
-        key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
-
     - name: Install Emacs
-      if: steps.cache-emacs.outputs.cache-hit != 'true'
       uses: purcell/setup-emacs@master
       with:
         version: ${{matrix.emacs_version}}
