@@ -25,6 +25,12 @@ jobs:
       with:
         version: ${{matrix.emacs_version}}
 
+    - name: Copy binary
+      run: cp -rL ~/.nix-packages/bin/emacs /usr/local/bin/emacs
+
+    - name: Try version
+      run: /usr/local/bin/emacs -version
+
     - name: Install Cask
       uses: conao3/setup-cask@master
       with:
