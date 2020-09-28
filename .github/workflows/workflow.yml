@@ -40,6 +40,9 @@ jobs:
     - name: ADD /bin PATH
       run: echo "::add-path::~/bin"
 
+    - name: EXPORT ENV VAR
+      run: echo "::set-env name=CASK_EMACS::~/bin/emacs"
+
     - name: DEBUG
       run: ls -al ~/bin
 
