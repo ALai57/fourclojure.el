@@ -1,4 +1,4 @@
-
+![Test](https://github.com/ALai57/fourclojure.el/workflows/Test/badge.svg?branch=master)
 
 *** Installation
 `cask install`
