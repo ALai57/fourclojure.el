@@ -37,6 +37,12 @@ jobs:
       if: steps.cache-emacs.outputs.cache-hit != 'true'
       run: mkdir -p ~/bin && cp -rL ~/.nix-profile/bin/emacs ~/bin/emacs
 
+    - name: ADD /bin PATH
+      run: echo "::add-path::~/bin"
+
+    - name: DEBUG
+      run: ls -al ~/bin
+
     - name: Install Cask
       uses: conao3/setup-cask@master
       with:
