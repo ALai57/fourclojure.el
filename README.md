@@ -17,6 +17,3 @@ https://github.com/conao3/setup-cask
 https://github.com/bbatsov/projectile/blob/master/.github/workflows/test.yml
 
 https://github.com/nix-actions/cache-install
-
-*** TODO:
-- Build github actions pipeline to run tests upon push to master
