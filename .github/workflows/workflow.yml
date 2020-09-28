@@ -40,6 +40,15 @@ jobs:
     - name: DEBUG
       run: ls -al ~/bin
 
+    - name: DEBUG
+      run: uname
+
+    - name: DEBUG
+      run: file ~/bin/emacs
+
+    - name: DEBUG
+      run: ./bin/emacs -version
+
     - name: ADD /bin PATH
       run: echo "::add-path::/home/runner/bin/"
 
