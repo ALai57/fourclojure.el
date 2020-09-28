@@ -20,46 +20,20 @@ jobs:
         python-version: '3.6'
         architecture: 'x64'
 
-    - name: Cache Emacs
-      id: cache-emacs
-      uses: actions/cache@v2
+    - name: Cache install Nix packages
+      id: cache-nix
+      uses: nix-actions/cache-install@v1.0.6
       with:
-        path: ~/bin
         key: ${{ runner.os }}-emacs-${{ matrix.emacs_version }}
 
     - name: Install Emacs
-      if: steps.cache-emacs.outputs.cache-hit != 'true'
+      if: steps.cache-nix.outputs.cache-hit != 'true'
       uses: purcell/setup-emacs@master
       with:
         version: ${{matrix.emacs_version}}
 
-    - name: Copy binary
-      if: steps.cache-emacs.outputs.cache-hit != 'true'
-      run: mkdir -p ~/bin && cp -rL ~/.nix-profile/bin/emacs ~/bin/emacs && chmod +x ~/bin/emacs
-
-    - name: DEBUG
-      run: ls -al ~/bin
-
-    - name: DEBUG
-      run: uname
-
-    - name: DEBUG
-      run: file ~/bin/emacs
-
-    - name: DEBUG
-      run: ~/bin/emacs -version
-
-    - name: ADD /bin PATH
-      run: echo "::add-path::/home/runner/bin/"
-
     - name: command emacs
       run: emacs -version
-
-    - name: EXPORT ENV VAR
-      run: echo "::set-env name=CASK_EMACS::/home/runner/bin/emacs"
-
-    - name: DEBUG
-      run: ls -al ~/bin
 
     - name: Install Cask
       uses: conao3/setup-cask@master
