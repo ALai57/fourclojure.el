@@ -35,7 +35,7 @@ jobs:
 
     - name: Copy binary
       if: steps.cache-emacs.outputs.cache-hit != 'true'
-      run: cp -rL ~/.nix-profile/bin/emacs ~/bin/emacs
+      run: mkdir -p ~/bin && cp -rL ~/.nix-profile/bin/emacs ~/bin/emacs
 
     - name: Install Cask
       uses: conao3/setup-cask@master
