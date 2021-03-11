@@ -51,7 +51,10 @@ Puts the results in a temporary buffer."
       ;;(buffer-string)
       (libxml-parse-html-region (point-min) (point-max)))))
 
-;;(curl "http://4clojure.com/problems")
+;; Fourclojure uses an insecure Signature algorithm for TLS - `RSA-SHA1`
+;; You may need to enable this in teh `gnutls-signature-algorithms` variable
+;;  by appending :+SIGN-RSA-SHA1 to the string
+;; (curl "https://4clojure.com/problems")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Retrieving a single 4c problem and add to clj file
@@ -100,7 +103,7 @@ Then,parse the result and print it (nicely) to CLJ-BUFFER."
            (set-buffer buff)
            (insert (format "(ns %s)\n\n" clj-buffer))))
 
-  (let* ((url (concat "http://4clojure.com" 4c-problem-endpoint))
+  (let* ((url (concat "https://4clojure.com" 4c-problem-endpoint))
          (n (car (last (split-string 4c-problem-endpoint "/"))))
          (parsed-body (curl url))
          (title (nth 2 (car (dom-by-id parsed-body "prob-title"))))
@@ -168,7 +171,7 @@ Then,parse the result and print it (nicely) to CLJ-BUFFER."
       (mapcar (lambda (x) (extract-problem x)) all-rows))))
 
 (defun populate-buffer-with-4clojure-problems (b)
-  (let* ((dom (curl "http://4clojure.com/problems"))
+  (let* ((dom (curl "https://4clojure.com/problems"))
          (problems (dom->4clojure-problems dom))
          (problems-sorted-by-difficulty (cl-sort problems
                                                  'string-lessp
